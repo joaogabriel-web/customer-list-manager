@@ -148,7 +148,8 @@
     var(--p-amber),
     var(--p-yellow)
   );
-  --shadow-card: 0 1px 2px color-mix(in oklab, var(--p-ink) 6%, transparent),
+  --shadow-card:
+    0 1px 2px color-mix(in oklab, var(--p-ink) 6%, transparent),
     0 8px 24px -12px color-mix(in oklab, var(--p-ink) 18%, transparent);
   --shadow-float: 0 12px 32px -8px color-mix(in oklab, var(--p-ink) 35%, transparent);
 

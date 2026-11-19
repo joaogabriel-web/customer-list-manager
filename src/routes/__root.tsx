@@ -19,9 +19,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Página não encontrada</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          A página que você procura não existe.
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">A página que você procura não existe.</p>
         <div className="mt-6">
           <Link
             to="/"
@@ -82,9 +80,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "CustList" },
-      { name: "description", content: "CustList: lista de tarefas pessoal que funciona só no seu navegador." },
+      {
+        name: "description",
+        content: "CustList: lista de tarefas pessoal que funciona só no seu navegador.",
+      },
       { property: "og:title", content: "CustList" },
-      { property: "og:description", content: "Lista de tarefas pessoal que funciona só no seu navegador." },
+      {
+        property: "og:description",
+        content: "Lista de tarefas pessoal que funciona só no seu navegador.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#03071e" },

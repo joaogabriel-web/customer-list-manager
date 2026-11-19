@@ -14,10 +14,7 @@ export function AppHeader({ isDemo, onOpenSettings }: AppHeaderProps) {
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="flex items-center gap-2 text-sm font-semibold tracking-wide text-header-muted">
-              <span
-                aria-hidden="true"
-                className="inline-block size-3 rounded-sm ember-stripe"
-              />
+              <span aria-hidden="true" className="inline-block size-3 rounded-sm ember-stripe" />
               CustList
             </p>
             <h1 className="mt-1 text-3xl font-bold sm:text-4xl">Minha Rotina</h1>

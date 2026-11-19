@@ -22,7 +22,10 @@ interface TaskToolbarProps {
 export function TaskToolbar(props: TaskToolbarProps) {
   const hasFilters = props.query.trim() !== "" || props.status !== "all";
   return (
-    <section aria-label="Busca, filtros e ordenação" className="surface space-y-4 p-4 compact:space-y-3 compact:p-3">
+    <section
+      aria-label="Busca, filtros e ordenação"
+      className="surface space-y-4 p-4 compact:space-y-3 compact:p-3"
+    >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <SearchField value={props.query} onChange={props.onQueryChange} />
         <SortControl value={props.sort} onChange={props.onSortChange} />

@@ -43,7 +43,8 @@ export function TaskApp({ storage, loadingDelayMs = 400 }: TaskAppProps) {
   // Elemento que abriu um diálogo, para devolver o foco ao fechar.
   const openerRef = useRef<HTMLElement | null>(null);
   const rememberOpener = () => {
-    openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    openerRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
   };
   const returnFocus = (event: Event) => {
     event.preventDefault();
@@ -138,10 +139,13 @@ export function TaskApp({ storage, loadingDelayMs = 400 }: TaskAppProps) {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <AppHeader isDemo={!loading && isDemo} onOpenSettings={() => {
+      <AppHeader
+        isDemo={!loading && isDemo}
+        onOpenSettings={() => {
           rememberOpener();
           setSettingsOpen(true);
-        }} />
+        }}
+      />
 
       <main className="mx-auto max-w-6xl px-4 pb-28 pt-6 sm:px-6 lg:pb-10 compact:pt-4">
         {loading ? (

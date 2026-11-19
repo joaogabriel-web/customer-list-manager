@@ -158,9 +158,7 @@ describe("CustList", () => {
 
   it("avisa quando o armazenamento está indisponível", async () => {
     await renderApp(null);
-    expect(screen.getByRole("alert")).toHaveTextContent(
-      "Não foi possível acessar o armazenamento",
-    );
+    expect(screen.getByRole("alert")).toHaveTextContent("Não foi possível acessar o armazenamento");
   });
 
   it("carrega tarefas salvas anteriormente", async () => {

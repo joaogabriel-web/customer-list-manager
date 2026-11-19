@@ -1,5 +1,12 @@
 import { CircleAlert, CircleCheck, Pencil, Plus } from "lucide-react";
-import { useEffect, useId, useState, type ChangeEvent, type FormEvent, type RefObject } from "react";
+import {
+  useEffect,
+  useId,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+  type RefObject,
+} from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -35,14 +42,23 @@ interface TaskFormProps {
 function FieldError({ id, message }: { id: string; message?: string | undefined }) {
   if (!message) return null;
   return (
-    <p id={id} className="mt-1.5 flex items-start gap-1.5 text-sm font-medium text-destructive-text">
+    <p
+      id={id}
+      className="mt-1.5 flex items-start gap-1.5 text-sm font-medium text-destructive-text"
+    >
       <CircleAlert className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
       <span>{message}</span>
     </p>
   );
 }
 
-export function TaskForm({ editingTask, onCreate, onUpdate, onFinishEdit, titleRef }: TaskFormProps) {
+export function TaskForm({
+  editingTask,
+  onCreate,
+  onUpdate,
+  onFinishEdit,
+  titleRef,
+}: TaskFormProps) {
   const uid = useId();
   const ids = {
     title: `${uid}-title`,
@@ -84,7 +100,8 @@ export function TaskForm({ editingTask, onCreate, onUpdate, onFinishEdit, titleR
   }, [editingId]);
 
   const handleChange =
-    (field: keyof TaskInput) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    (field: keyof TaskInput) =>
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const next = { ...values, [field]: e.target.value };
       setValues(next);
       if (field === "title") setSuccess(null);
@@ -143,10 +160,7 @@ export function TaskForm({ editingTask, onCreate, onUpdate, onFinishEdit, titleR
   return (
     <section
       aria-labelledby={ids.heading}
-      className={cn(
-        "surface scroll-mt-4 p-4 compact:p-3",
-        isEditing && "border-2 border-primary",
-      )}
+      className={cn("surface scroll-mt-4 p-4 compact:p-3", isEditing && "border-2 border-primary")}
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 id={ids.heading} className="text-lg font-bold">
@@ -165,7 +179,11 @@ export function TaskForm({ editingTask, onCreate, onUpdate, onFinishEdit, titleR
         </p>
       )}
 
-      <form noValidate onSubmit={handleSubmit} className="mt-4 space-y-4 compact:mt-3 compact:space-y-3">
+      <form
+        noValidate
+        onSubmit={handleSubmit}
+        className="mt-4 space-y-4 compact:mt-3 compact:space-y-3"
+      >
         <div>
           <div className="flex items-baseline justify-between gap-2">
             <label htmlFor={ids.title} className="text-sm font-semibold">

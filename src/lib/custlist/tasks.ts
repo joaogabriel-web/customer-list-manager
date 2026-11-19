@@ -85,8 +85,7 @@ export function isValidDateString(value: string): boolean {
 }
 
 export type ValidationResult =
-  | { ok: true; value: TaskDraft }
-  | { ok: false; errors: ValidationErrors };
+  { ok: true; value: TaskDraft } | { ok: false; errors: ValidationErrors };
 
 export function validateTaskInput(input: TaskInput): ValidationResult {
   const errors: ValidationErrors = {};

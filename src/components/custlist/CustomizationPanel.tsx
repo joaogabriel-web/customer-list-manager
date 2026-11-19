@@ -100,7 +100,10 @@ export function CustomizationPanel({
 
         <div className="flex-1 space-y-6 p-5">
           {saveFailed && (
-            <p role="alert" className="flex gap-2 rounded-lg border-2 border-destructive-text bg-destructive-soft p-3 text-sm">
+            <p
+              role="alert"
+              className="flex gap-2 rounded-lg border-2 border-destructive-text bg-destructive-soft p-3 text-sm"
+            >
               <TriangleAlert className="size-4 shrink-0 text-destructive-text" aria-hidden="true" />
               <span>
                 Não foi possível salvar as preferências neste navegador. Elas valem só até você
@@ -157,7 +160,9 @@ export function CustomizationPanel({
                 >
                   <span>
                     {d.label}
-                    <span className="block text-xs font-normal text-muted-foreground">{d.hint}</span>
+                    <span className="block text-xs font-normal text-muted-foreground">
+                      {d.hint}
+                    </span>
                   </span>
                 </OptionCard>
               ))}
