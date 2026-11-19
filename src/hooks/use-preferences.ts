@@ -14,8 +14,8 @@ export function applyPreferencesToDocument(prefs: Preferences) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
   root.classList.toggle("dark", prefs.theme === "dark");
-  root.dataset.accent = prefs.accent;
-  root.dataset.density = prefs.density;
+  root.setAttribute("data-accent", prefs.accent);
+  root.setAttribute("data-density", prefs.density);
 }
 
 export function usePreferences(storage?: StorageLike | null) {

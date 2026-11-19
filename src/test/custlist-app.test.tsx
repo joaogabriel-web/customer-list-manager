@@ -17,7 +17,7 @@ beforeAll(() => {
 function memoryStorage(initial: Record<string, string> = {}) {
   const data: Record<string, string> = { ...initial };
   const storage: StorageLike = {
-    getItem: (k) => (k in data ? data[k] : null),
+    getItem: (k) => data[k] ?? null,
     setItem: (k, v) => {
       data[k] = v;
     },
@@ -29,7 +29,7 @@ function memoryStorage(initial: Record<string, string> = {}) {
 }
 
 function savedTasks(data: Record<string, string>) {
-  return JSON.parse(data[TASKS_KEY]).tasks as { title: string; status: string }[];
+  return JSON.parse(data[TASKS_KEY] ?? "{}").tasks as { title: string; status: string }[];
 }
 
 async function renderApp(storage: StorageLike | null) {
@@ -55,7 +55,7 @@ describe("CustList", () => {
 
     expect(screen.getByRole("article", { name: "Comprar pão" })).toBeInTheDocument();
     expect(screen.getByText(/adicionada e salva neste dispositivo/)).toBeInTheDocument();
-    expect(savedTasks(data)[0].title).toBe("Comprar pão");
+    expect(savedTasks(data)[0]?.title).toBe("Comprar pão");
   });
 
   it("bloqueia título vazio com mensagem associada ao campo", async () => {
@@ -185,11 +185,11 @@ describe("CustList", () => {
       fireEvent.click(within(panel).getByLabelText("Escuro"));
     });
     expect(document.documentElement).toHaveClass("dark");
-    expect(JSON.parse(data[PREFERENCES_KEY]).theme).toBe("dark");
+    expect(JSON.parse(data[PREFERENCES_KEY] ?? "{}").theme).toBe("dark");
 
     fireEvent.click(within(panel).getByRole("button", { name: "Restaurar preferências" }));
     expect(document.documentElement).not.toHaveClass("dark");
-    expect(JSON.parse(data[PREFERENCES_KEY]).theme).toBe("light");
+    expect(JSON.parse(data[PREFERENCES_KEY] ?? "{}").theme).toBe("light");
   });
 
   it("dá nomes acessíveis aos controles principais", async () => {

@@ -82,7 +82,9 @@ export function saveTasks(storage: StorageLike, tasks: readonly Task[]): boolean
 }
 
 export function sanitizePreferences(raw: unknown): Preferences {
-  const r = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
+  const r = (raw && typeof raw === "object" ? raw : {}) as Partial<
+    Record<keyof Preferences, unknown>
+  >;
   return {
     theme: r.theme === "dark" ? "dark" : "light",
     accent:

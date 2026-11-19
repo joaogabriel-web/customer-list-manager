@@ -6,8 +6,8 @@ import type { StorageLike, Task, TaskDraft, TaskStatus } from "@/lib/custlist/ty
 
 export interface UseTasksOptions {
   /** `undefined` usa o localStorage do navegador; `null` simula armazenamento indisponível. */
-  storage?: StorageLike | null;
-  loadingDelayMs?: number;
+  storage?: StorageLike | null | undefined;
+  loadingDelayMs?: number | undefined;
 }
 
 function newId(): string {
@@ -100,6 +100,7 @@ export function useTasks({ storage, loadingDelayMs = 400 }: UseTasksOptions = {}
       const index = tasksRef.current.findIndex((t) => t.id === id);
       if (index === -1) return null;
       const task = tasksRef.current[index];
+      if (!task) return null;
       const persisted = commit(tasksRef.current.filter((t) => t.id !== id));
       return { task, index, persisted };
     },

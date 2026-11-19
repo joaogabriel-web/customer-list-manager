@@ -32,7 +32,7 @@ interface TaskFormProps {
   titleRef: RefObject<HTMLInputElement | null>;
 }
 
-function FieldError({ id, message }: { id: string; message?: string }) {
+function FieldError({ id, message }: { id: string; message?: string | undefined }) {
   if (!message) return null;
   return (
     <p id={id} className="mt-1.5 flex items-start gap-1.5 text-sm font-medium text-destructive-text">
@@ -137,7 +137,7 @@ export function TaskForm({ editingTask, onCreate, onUpdate, onFinishEdit, titleR
     onFinishEdit(editingTask.id);
   };
 
-  const describedBy = (...list: (string | false | undefined)[]) =>
+  const describedBy = (...list: (string | false | null | undefined)[]) =>
     list.filter(Boolean).join(" ") || undefined;
 
   return (

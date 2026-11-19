@@ -19,8 +19,8 @@ import type { SortKey, StatusFilter, StorageLike, Task, TaskStatus } from "@/lib
 
 interface TaskAppProps {
   /** Injeção para testes. `undefined` = localStorage do navegador. */
-  storage?: StorageLike | null;
-  loadingDelayMs?: number;
+  storage?: StorageLike | null | undefined;
+  loadingDelayMs?: number | undefined;
 }
 
 export function TaskApp({ storage, loadingDelayMs = 400 }: TaskAppProps) {

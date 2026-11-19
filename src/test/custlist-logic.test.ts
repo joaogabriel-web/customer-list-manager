@@ -11,13 +11,13 @@ import {
 import { filterTasks, sortTasks, validateTaskInput } from "@/lib/custlist/tasks";
 import type { StorageLike } from "@/lib/custlist/types";
 
-export function memoryStorage(initial: Record<string, string> = {}): StorageLike & {
+function memoryStorage(initial: Record<string, string> = {}): StorageLike & {
   data: Record<string, string>;
 } {
   const data = { ...initial };
   return {
     data,
-    getItem: (k) => (k in data ? data[k] : null),
+    getItem: (k) => data[k] ?? null,
     setItem: (k, v) => {
       data[k] = v;
     },
@@ -79,14 +79,14 @@ describe("busca, filtros e ordenação", () => {
   });
 
   it("ordena por prioridade alta primeiro e por data com tarefas sem data no fim", () => {
-    expect(sortTasks(MOCK_DATA, "priority")[0].priority).toBe("high");
+    expect(sortTasks(MOCK_DATA, "priority")[0]?.priority).toBe("high");
     const byDue = sortTasks(MOCK_DATA, "due");
-    expect(byDue[0].dueDate).toBe("2026-11-18");
+    expect(byDue[0]?.dueDate).toBe("2026-11-18");
     expect(byDue.at(-1)?.dueDate).toBeNull();
   });
 
   it("ordena por título em ordem alfabética", () => {
-    expect(sortTasks(MOCK_DATA, "title")[0].title).toBe("Beber água ao acordar");
+    expect(sortTasks(MOCK_DATA, "title")[0]?.title).toBe("Beber água ao acordar");
   });
 });
 
@@ -100,7 +100,7 @@ describe("armazenamento local", () => {
 
   it("grava e lê de volta a lista", () => {
     const storage = memoryStorage();
-    saveTasks(storage, [MOCK_DATA[0]]);
+    saveTasks(storage, MOCK_DATA.slice(0, 1));
     expect(loadTasks(storage).tasks.map((t) => t.id)).toEqual(["mock-1"]);
   });
 

@@ -69,10 +69,17 @@ export function cleanText(value: unknown, multiline = false): string {
   return text.trim();
 }
 
+function parseDateParts(value: string): [number, number, number] | null {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return null;
+  return [Number(match[1]), Number(match[2]), Number(match[3])];
+}
+
 /** Aceita somente datas reais no formato AAAA-MM-DD. */
 export function isValidDateString(value: string): boolean {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  const [y, m, d] = value.split("-").map(Number);
+  const parts = parseDateParts(value);
+  if (!parts) return false;
+  const [y, m, d] = parts;
   const date = new Date(Date.UTC(y, m - 1, d));
   return date.getUTCFullYear() === y && date.getUTCMonth() === m - 1 && date.getUTCDate() === d;
 }
@@ -184,7 +191,7 @@ export function countByStatus(tasks: readonly Task[]): Record<TaskStatus, number
 /** Valida um registro lido do armazenamento; descarta o que não tiver o formato esperado. */
 export function sanitizeStoredTask(raw: unknown): Task | null {
   if (!raw || typeof raw !== "object") return null;
-  const r = raw as Record<string, unknown>;
+  const r = raw as Partial<Record<keyof Task, unknown>>;
   if (typeof r.id !== "string" || !r.id) return null;
   const title = cleanText(r.title).slice(0, TITLE_MAX);
   if (!title) return null;
@@ -211,7 +218,9 @@ export function sanitizeStoredTask(raw: unknown): Task | null {
 }
 
 export function formatDueDate(value: string): string {
-  const [y, m, d] = value.split("-").map(Number);
+  const parts = parseDateParts(value);
+  if (!parts) return value;
+  const [y, m, d] = parts;
   return new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
     month: "short",
