@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- Task and preference logic lives as pure functions in `src/lib/custlist/` (validation, filter/sort, storage) and is wired through `src/hooks/use-tasks.ts` / `use-preferences.ts`; components in `src/components/custlist/` stay presentational. Why: keeps rules unit-testable without rendering.
+- All persistence goes through the injectable `StorageLike` in `src/lib/custlist/storage.ts`; never call `localStorage` directly from components. Why: storage failures must degrade to in-memory state and be testable.
+- Theme, accent and density are applied as `.dark`, `data-accent` and `data-density` on `<html>`, with tokens and the `compact:` variant in `src/styles.css`. Why: one place controls every visual preference.
