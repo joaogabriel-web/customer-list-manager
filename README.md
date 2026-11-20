@@ -1,24 +1,62 @@
-# Customer List Manager
+# CustList
 
-desenvolva o projeto que o nome dele e CustList
+Aplicação pessoal de gerenciamento de tarefas, centralizada neste workspace.
 
-This project was built with [Lovable](https://lovable.dev).
+## Estrutura
 
-## Build with Lovable
+```text
+frontend/  Aplicação React/TanStack/Vite existente
+backend/   API REST em Node.js e Express
+docs/      Especificações do projeto
+prompts/   Prompts utilizados no desenvolvimento
+```
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/f373fa86-a327-4b11-8403-25d305c8153a).
+## Pré-requisitos
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- Node.js 20 ou superior
+- npm
 
-## Development
+## Instalação
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+```bash
+npm run install:all
+```
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+Instalações independentes também continuam disponíveis:
+
+```bash
+npm install --prefix frontend
+npm install --prefix backend
+```
+
+## Desenvolvimento
+
+Frontend:
+
+```bash
+npm run dev:frontend
+```
+
+Backend:
+
+```bash
+npm run dev:backend
+```
+
+Copie `backend/.env.example` para `backend/.env` para personalizar porta e origem
+permitida do Frontend.
+
+## Compilação e testes
+
+```bash
+npm run build
+npm run test:all
+npm run lint
+```
+
+Testes separadamente:
+
+```bash
+npm run test:frontend
+npm run test:backend
 ```
