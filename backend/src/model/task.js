@@ -18,7 +18,7 @@ function isTask(value) {
   );
 }
 
-export function createTaskStore(fileUrl) {
+export function createTaskModel(fileUrl) {
   let tasks = [];
 
   async function load() {
@@ -62,7 +62,7 @@ export function createTaskStore(fileUrl) {
       return updated;
     },
     async remove(id) {
-      const task = this.find(id);
+      const task = tasks.find((current) => current.id === id) ?? null;
       if (!task) return null;
       tasks = tasks.filter((current) => current.id !== id);
       await persist();

@@ -1,3 +1,5 @@
+import crypto from "node:crypto";
+
 export const STATUSES = ["pending", "in_progress", "done"];
 export const PRIORITIES = ["low", "medium", "high"];
 export const TITLE_MAX = 100;
@@ -30,16 +32,14 @@ export function validateTaskInput(input, { partial = false } = {}) {
   if (!partial || input.title !== undefined) {
     const title = cleanText(input.title);
     if (!title) errors.title = "Informe um título para a tarefa.";
-    else if (title.length > TITLE_MAX) {
-      errors.title = `O título pode ter no máximo ${TITLE_MAX} caracteres.`;
-    } else value.title = title;
+    else if (title.length > TITLE_MAX) errors.title = `O título pode ter no máximo ${TITLE_MAX} caracteres.`;
+    else value.title = title;
   }
 
   if (!partial || input.description !== undefined) {
     const description = cleanText(input.description, true);
-    if (description.length > DESCRIPTION_MAX) {
-      errors.description = `A descrição pode ter no máximo ${DESCRIPTION_MAX} caracteres.`;
-    } else value.description = description;
+    if (description.length > DESCRIPTION_MAX) errors.description = `A descrição pode ter no máximo ${DESCRIPTION_MAX} caracteres.`;
+    else value.description = description;
   }
 
   if (!partial || input.status !== undefined) {
@@ -54,12 +54,40 @@ export function validateTaskInput(input, { partial = false } = {}) {
 
   if (!partial || input.dueDate !== undefined) {
     const dueDate = cleanText(input.dueDate);
-    if (dueDate && !isValidDateString(dueDate)) {
-      errors.dueDate = "Informe uma data válida no formato AAAA-MM-DD.";
-    } else value.dueDate = dueDate || null;
+    if (dueDate && !isValidDateString(dueDate)) errors.dueDate = "Informe uma data válida no formato AAAA-MM-DD.";
+    else value.dueDate = dueDate || null;
   }
 
-  return Object.keys(errors).length > 0
-    ? { ok: false, errors }
-    : { ok: true, value };
+  return Object.keys(errors).length > 0 ? { ok: false, errors } : { ok: true, value };
+}
+
+export function createTaskService(store) {
+  return {
+    async list() {
+      return store.list();
+    },
+    async create(input) {
+      const result = validateTaskInput(input);
+      if (!result.ok) return { ok: false, errors: result.errors };
+      const now = new Date().toISOString();
+      const task = await store.insert({
+        id: crypto.randomUUID(),
+        ...result.value,
+        createdAt: now,
+        updatedAt: now,
+        isMock: false,
+      });
+      return { ok: true, task };
+    },
+    async update(id, input) {
+      const result = validateTaskInput(input, { partial: true });
+      if (!result.ok) return { ok: false, errors: result.errors };
+      const task = await store.update(id, result.value);
+      return task ? { ok: true, task } : { ok: false, notFound: true };
+    },
+    async remove(id) {
+      const task = await store.remove(id);
+      return task ? { ok: true, task } : { ok: false, notFound: true };
+    },
+  };
 }

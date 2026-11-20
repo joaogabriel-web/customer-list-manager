@@ -19,6 +19,19 @@ A API ficará disponível em `http://localhost:3000`.
 
 Para configurar a porta e a origem permitida, copie `.env.example` para `.env` e ajuste os valores.
 
+### Estrutura
+
+```text
+src/
+  config/       Configurações e variáveis de ambiente
+  model/        Persistência local das tarefas
+  service/      Regras de negócio e validação
+  controller/   Tradução HTTP das respostas
+  router/       Definição das rotas REST
+  app.js        Montagem da aplicação Express
+  server.js     Inicialização do servidor
+```
+
 ### Executar
 
 ```bash
