@@ -90,6 +90,16 @@
   --p-tangerine: oklch(0.736 0.17 61.1); /* #f48c06 */
   --p-amber: oklch(0.783 0.167 71.1); /* #faa307 */
   --p-yellow: oklch(0.831 0.17 81.4); /* #ffba08 */
+  --p-fuchsia: #f72585;
+  --p-magenta: #b5179e;
+  --p-purple: #7209b7;
+  --p-indigo: #560bad;
+  --p-violet: #480ca8;
+  --p-deep-blue: #3a0ca3;
+  --p-blue: #3f37c9;
+  --p-bright-blue: #4361ee;
+  --p-sky: #4895ef;
+  --p-cyan: #4cc9f0;
 
   --radius: 0.75rem;
   --ink: var(--p-ink);
@@ -184,6 +194,29 @@
 :root[data-accent="amarelo"] {
   --primary: var(--p-yellow);
   --primary-hover: oklch(0.79 0.17 76);
+}
+:root[data-accent="rosa-violeta"] {
+  --primary: var(--p-fuchsia);
+  --primary-hover: #d91470;
+  --ring: var(--p-fuchsia);
+  --gradient-ember: linear-gradient(
+    90deg,
+    var(--p-fuchsia),
+    var(--p-magenta),
+    var(--p-purple),
+    var(--p-indigo),
+    var(--p-violet),
+    var(--p-deep-blue),
+    var(--p-blue),
+    var(--p-bright-blue),
+    var(--p-sky),
+    var(--p-cyan)
+  );
+  --chart-1: var(--p-fuchsia);
+  --chart-2: var(--p-purple);
+  --chart-3: var(--p-deep-blue);
+  --chart-4: var(--p-bright-blue);
+  --chart-5: var(--p-cyan);
 }
 
 .dark {

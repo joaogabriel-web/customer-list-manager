@@ -28,6 +28,7 @@ const ACCENTS: { value: AccentPreference; label: string; swatch: string }[] = [
   { value: "tangerina", label: "Tangerina", swatch: "bg-[var(--p-tangerine)]" },
   { value: "ambar", label: "Âmbar", swatch: "bg-[var(--p-amber)]" },
   { value: "amarelo", label: "Amarelo", swatch: "bg-[var(--p-yellow)]" },
+  { value: "rosa-violeta", label: "Rosa e violeta", swatch: "bg-[var(--p-fuchsia)]" },
 ];
 
 const DENSITIES: { value: DensityPreference; label: string; hint: string }[] = [
@@ -58,7 +59,7 @@ function OptionCard({
         name={name}
         checked={checked}
         onChange={onSelect}
-        className="size-4 accent-[var(--p-orange)] focus-visible:outline-none"
+        className="size-4 accent-primary focus-visible:outline-none"
       />
       {children}
     </label>

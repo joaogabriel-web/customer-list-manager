@@ -145,4 +145,11 @@ describe("armazenamento local", () => {
     });
     expect(loadPreferences(storage).preferences).toEqual(DEFAULT_PREFERENCES);
   });
+
+  it("carrega a nova paleta rosa e violeta", () => {
+    const storage = memoryStorage({
+      "custlist:preferences:v1": JSON.stringify({ accent: "rosa-violeta" }),
+    });
+    expect(loadPreferences(storage).preferences.accent).toBe("rosa-violeta");
+  });
 });

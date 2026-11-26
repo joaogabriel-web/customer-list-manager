@@ -38,7 +38,7 @@ export interface TaskDraft {
 export type ValidationErrors = Partial<Record<keyof TaskInput, string>>;
 
 export type ThemePreference = "light" | "dark";
-export type AccentPreference = "laranja" | "tangerina" | "ambar" | "amarelo";
+export type AccentPreference = "laranja" | "tangerina" | "ambar" | "amarelo" | "rosa-violeta";
 export type DensityPreference = "comfortable" | "compact";
 
 export interface Preferences {

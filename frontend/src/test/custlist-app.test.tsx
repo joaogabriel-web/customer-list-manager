@@ -190,6 +190,20 @@ describe("CustList", () => {
     expect(JSON.parse(data[PREFERENCES_KEY] ?? "{}").theme).toBe("light");
   });
 
+  it("salva e aplica a paleta rosa e violeta", async () => {
+    const { storage, data } = memoryStorage();
+    await renderApp(storage);
+    fireEvent.click(screen.getByRole("button", { name: "Personalizar aparência" }));
+    const panel = await screen.findByRole("dialog", { name: "Personalização" });
+
+    await act(async () => {
+      fireEvent.click(within(panel).getByLabelText("Rosa e violeta"));
+    });
+
+    expect(document.documentElement).toHaveAttribute("data-accent", "rosa-violeta");
+    expect(JSON.parse(data[PREFERENCES_KEY] ?? "{}").accent).toBe("rosa-violeta");
+  });
+
   it("dá nomes acessíveis aos controles principais", async () => {
     const { storage } = memoryStorage();
     await renderApp(storage);

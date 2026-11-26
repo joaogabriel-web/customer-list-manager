@@ -88,7 +88,10 @@ export function sanitizePreferences(raw: unknown): Preferences {
   return {
     theme: r.theme === "dark" ? "dark" : "light",
     accent:
-      r.accent === "laranja" || r.accent === "ambar" || r.accent === "amarelo"
+      r.accent === "laranja" ||
+      r.accent === "ambar" ||
+      r.accent === "amarelo" ||
+      r.accent === "rosa-violeta"
         ? r.accent
         : "tangerina",
     density: r.density === "compact" ? "compact" : "comfortable",
