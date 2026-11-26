@@ -40,12 +40,17 @@ export type ValidationErrors = Partial<Record<keyof TaskInput, string>>;
 export type ThemePreference = "light" | "dark";
 export type AccentPreference = "laranja" | "tangerina" | "ambar" | "amarelo" | "rosa-violeta";
 export type DensityPreference = "comfortable" | "compact";
+export type TextSizePreference = "small" | "medium" | "large";
+export type TaskViewPreference = "cards" | "list";
 
 export interface Preferences {
   theme: ThemePreference;
   accent: AccentPreference;
   density: DensityPreference;
   defaultSort: SortKey;
+  defaultFilter: StatusFilter;
+  textSize: TextSizePreference;
+  taskView: TaskViewPreference;
 }
 
 /** Subconjunto do Web Storage usado pelo app; permite injetar falhas nos testes. */

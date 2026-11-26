@@ -9,13 +9,14 @@ import {
 } from "@/lib/custlist/storage";
 import type { Preferences, StorageLike } from "@/lib/custlist/types";
 
-/** Aplica tema, cor de destaque e densidade no elemento <html>. */
+/** Aplica as preferências visuais no elemento <html>. */
 export function applyPreferencesToDocument(prefs: Preferences) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
   root.classList.toggle("dark", prefs.theme === "dark");
   root.setAttribute("data-accent", prefs.accent);
   root.setAttribute("data-density", prefs.density);
+  root.setAttribute("data-text-size", prefs.textSize);
 }
 
 export function usePreferences(storage?: StorageLike | null) {

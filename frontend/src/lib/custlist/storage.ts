@@ -1,5 +1,5 @@
 import { cloneMockData } from "./mock-data";
-import { isSortKey, sanitizeStoredTask } from "./tasks";
+import { isSortKey, isStatusFilter, sanitizeStoredTask } from "./tasks";
 import type { Preferences, StorageLike, Task } from "./types";
 
 export const TASKS_KEY = "custlist:tasks:v1";
@@ -10,6 +10,9 @@ export const DEFAULT_PREFERENCES: Preferences = Object.freeze({
   accent: "tangerina",
   density: "comfortable",
   defaultSort: "created",
+  defaultFilter: "all",
+  textSize: "medium",
+  taskView: "cards",
 }) as Preferences;
 
 export type TasksIssue = "unavailable" | "corrupted" | "write_failed" | null;
@@ -96,6 +99,12 @@ export function sanitizePreferences(raw: unknown): Preferences {
         : "tangerina",
     density: r.density === "compact" ? "compact" : "comfortable",
     defaultSort: isSortKey(r.defaultSort) ? r.defaultSort : DEFAULT_PREFERENCES.defaultSort,
+    defaultFilter: isStatusFilter(r.defaultFilter)
+      ? r.defaultFilter
+      : DEFAULT_PREFERENCES.defaultFilter,
+    textSize:
+      r.textSize === "small" || r.textSize === "large" ? r.textSize : DEFAULT_PREFERENCES.textSize,
+    taskView: r.taskView === "list" ? "list" : DEFAULT_PREFERENCES.taskView,
   };
 }
 

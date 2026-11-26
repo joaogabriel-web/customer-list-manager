@@ -2,11 +2,12 @@ import { forwardRef } from "react";
 
 import { EmptyState, NoResults } from "./EmptyState";
 import { TaskItem } from "./TaskItem";
-import type { Task, TaskStatus } from "@/lib/custlist/types";
+import type { Task, TaskStatus, TaskViewPreference } from "@/lib/custlist/types";
 
 interface TaskListProps {
   tasks: Task[];
   totalCount: number;
+  viewStyle: TaskViewPreference;
   editingId: string | null;
   onEdit: (task: Task) => void;
   onDelete: (task: Task) => void;
@@ -16,7 +17,17 @@ interface TaskListProps {
 }
 
 export const TaskList = forwardRef<HTMLHeadingElement, TaskListProps>(function TaskList(
-  { tasks, totalCount, editingId, onEdit, onDelete, onStatusChange, onCreateFirst, onClearFilters },
+  {
+    tasks,
+    totalCount,
+    viewStyle,
+    editingId,
+    onEdit,
+    onDelete,
+    onStatusChange,
+    onCreateFirst,
+    onClearFilters,
+  },
   headingRef,
 ) {
   return (
@@ -29,11 +40,18 @@ export const TaskList = forwardRef<HTMLHeadingElement, TaskListProps>(function T
       ) : tasks.length === 0 ? (
         <NoResults onClear={onClearFilters} />
       ) : (
-        <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 compact:gap-2">
+        <ul
+          className={
+            viewStyle === "list"
+              ? "grid grid-cols-1 gap-2"
+              : "grid gap-3 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 compact:gap-2"
+          }
+        >
           {tasks.map((task) => (
             <TaskItem
               key={task.id}
               task={task}
+              viewStyle={viewStyle}
               isEditing={editingId === task.id}
               onEdit={onEdit}
               onDelete={onDelete}

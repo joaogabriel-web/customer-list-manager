@@ -152,4 +152,32 @@ describe("armazenamento local", () => {
     });
     expect(loadPreferences(storage).preferences.accent).toBe("rosa-violeta");
   });
+
+  it("carrega as novas preferências e normaliza valores inválidos", () => {
+    const storage = memoryStorage({
+      "custlist:preferences:v1": JSON.stringify({
+        defaultFilter: "in_progress",
+        textSize: "large",
+        taskView: "list",
+      }),
+    });
+    expect(loadPreferences(storage).preferences).toMatchObject({
+      defaultFilter: "in_progress",
+      textSize: "large",
+      taskView: "list",
+    });
+
+    const invalid = memoryStorage({
+      "custlist:preferences:v1": JSON.stringify({
+        defaultFilter: "invalid",
+        textSize: "huge",
+        taskView: "table",
+      }),
+    });
+    expect(loadPreferences(invalid).preferences).toMatchObject({
+      defaultFilter: "all",
+      textSize: "medium",
+      taskView: "cards",
+    });
+  });
 });

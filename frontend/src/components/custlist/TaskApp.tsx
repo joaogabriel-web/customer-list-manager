@@ -29,7 +29,7 @@ export function TaskApp({ storage, loadingDelayMs = 400 }: TaskAppProps) {
   const { preferences, update, reset, saveFailed } = usePreferences(storage);
 
   const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>(preferences.defaultFilter);
   const [sort, setSort] = useState<SortKey>(preferences.defaultSort);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<Task | null>(null);
@@ -57,6 +57,7 @@ export function TaskApp({ storage, loadingDelayMs = 400 }: TaskAppProps) {
 
   // A ordenação padrão escolhida nas preferências passa a valer imediatamente.
   useEffect(() => setSort(preferences.defaultSort), [preferences.defaultSort]);
+  useEffect(() => setStatusFilter(preferences.defaultFilter), [preferences.defaultFilter]);
 
   const editingTask = useMemo(
     () => tasks.find((t) => t.id === editingId) ?? null,
@@ -187,6 +188,7 @@ export function TaskApp({ storage, loadingDelayMs = 400 }: TaskAppProps) {
                   ref={listHeadingRef}
                   tasks={visible}
                   totalCount={tasks.length}
+                  viewStyle={preferences.taskView}
                   editingId={editingId}
                   onEdit={handleEdit}
                   onDelete={(task) => {

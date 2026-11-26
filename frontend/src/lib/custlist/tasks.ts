@@ -61,6 +61,10 @@ export function isSortKey(value: unknown): value is SortKey {
   return typeof value === "string" && (SORT_KEYS as readonly string[]).includes(value);
 }
 
+export function isStatusFilter(value: unknown): value is StatusFilter {
+  return typeof value === "string" && (STATUS_FILTERS as readonly string[]).includes(value);
+}
+
 /** Remove caracteres de controle e espaços nas pontas. Título não aceita quebras de linha. */
 export function cleanText(value: unknown, multiline = false): string {
   if (typeof value !== "string") return "";

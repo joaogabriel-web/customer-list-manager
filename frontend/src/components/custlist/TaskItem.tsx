@@ -5,10 +5,11 @@ import { PriorityBadge, StatusBadge } from "./badges";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { STATUSES, STATUS_LABELS, formatDueDate, isTaskStatus } from "@/lib/custlist/tasks";
-import type { Task, TaskStatus } from "@/lib/custlist/types";
+import type { Task, TaskStatus, TaskViewPreference } from "@/lib/custlist/types";
 
 interface TaskItemProps {
   task: Task;
+  viewStyle: TaskViewPreference;
   isEditing: boolean;
   onEdit: (task: Task) => void;
   onDelete: (task: Task) => void;
@@ -16,7 +17,14 @@ interface TaskItemProps {
 }
 
 /** Todo texto do usuário é renderizado como texto puro pelo React (nunca como HTML). */
-export function TaskItem({ task, isEditing, onEdit, onDelete, onStatusChange }: TaskItemProps) {
+export function TaskItem({
+  task,
+  viewStyle,
+  isEditing,
+  onEdit,
+  onDelete,
+  onStatusChange,
+}: TaskItemProps) {
   const statusId = useId();
   const done = task.status === "done";
   return (
@@ -25,10 +33,17 @@ export function TaskItem({ task, isEditing, onEdit, onDelete, onStatusChange }: 
         aria-label={task.title}
         className={cn(
           "surface flex h-full flex-col gap-3 p-4 compact:gap-2 compact:p-3",
+          viewStyle === "list" &&
+            "grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2 p-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:gap-4",
           isEditing && "border-2 border-primary",
         )}
       >
-        <div className="flex flex-wrap items-center gap-2">
+        <div
+          className={cn(
+            "flex flex-wrap items-center gap-2",
+            viewStyle === "list" && "flex-col items-start",
+          )}
+        >
           <StatusBadge status={task.status} />
           <PriorityBadge priority={task.priority} />
           {task.isMock && (
@@ -60,8 +75,14 @@ export function TaskItem({ task, isEditing, onEdit, onDelete, onStatusChange }: 
             </p>
           )}
         </div>
-        <div className="mt-auto flex flex-col gap-2 border-t pt-3 compact:pt-2">
-          <div>
+        <div
+          className={cn(
+            "mt-auto flex flex-col gap-2 border-t pt-3 compact:pt-2",
+            viewStyle === "list" &&
+              "col-span-2 mt-0 flex-row flex-wrap items-end gap-3 border-t-0 pt-0 md:col-span-1 md:flex-nowrap md:border-l md:py-0 md:pl-4",
+          )}
+        >
+          <div className={cn(viewStyle === "list" && "min-w-32 flex-1")}>
             <label htmlFor={statusId} className="text-xs font-semibold text-muted-foreground">
               Status
             </label>
@@ -81,7 +102,7 @@ export function TaskItem({ task, isEditing, onEdit, onDelete, onStatusChange }: 
               ))}
             </select>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className={cn("grid grid-cols-2 gap-2", viewStyle === "list" && "min-w-36 flex-1")}>
             <Button
               id={`edit-${task.id}`}
               variant="outline"

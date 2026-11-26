@@ -11,10 +11,13 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { FILTER_LABELS, STATUS_FILTERS } from "@/lib/custlist/tasks";
 import type {
   AccentPreference,
   DensityPreference,
   Preferences,
+  TaskViewPreference,
+  TextSizePreference,
   ThemePreference,
 } from "@/lib/custlist/types";
 
@@ -34,6 +37,17 @@ const ACCENTS: { value: AccentPreference; label: string; swatch: string }[] = [
 const DENSITIES: { value: DensityPreference; label: string; hint: string }[] = [
   { value: "comfortable", label: "Confortável", hint: "Mais espaço entre os itens" },
   { value: "compact", label: "Compacta", hint: "Mostra mais tarefas na tela" },
+];
+
+const TEXT_SIZES: { value: TextSizePreference; label: string }[] = [
+  { value: "small", label: "Pequeno" },
+  { value: "medium", label: "Médio" },
+  { value: "large", label: "Grande" },
+];
+
+const TASK_VIEWS: { value: TaskViewPreference; label: string; hint: string }[] = [
+  { value: "cards", label: "Cartões", hint: "Exibe as tarefas em cartões" },
+  { value: "list", label: "Lista", hint: "Exibe as tarefas em linhas" },
 ];
 
 function OptionCard({
@@ -169,6 +183,64 @@ export function CustomizationPanel({
               ))}
             </div>
           </fieldset>
+
+          <fieldset>
+            <legend className="text-sm font-bold">Tamanho do texto</legend>
+            <div className="mt-2 grid grid-cols-3 gap-2">
+              {TEXT_SIZES.map((size) => (
+                <OptionCard
+                  key={size.value}
+                  name="text-size"
+                  checked={preferences.textSize === size.value}
+                  onSelect={() => onUpdate({ textSize: size.value })}
+                >
+                  {size.label}
+                </OptionCard>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-sm font-bold">Estilo de exibição</legend>
+            <div className="mt-2 grid gap-2">
+              {TASK_VIEWS.map((view) => (
+                <OptionCard
+                  key={view.value}
+                  name="task-view"
+                  checked={preferences.taskView === view.value}
+                  onSelect={() => onUpdate({ taskView: view.value })}
+                >
+                  <span>
+                    {view.label}
+                    <span className="block text-xs font-normal text-muted-foreground">
+                      {view.hint}
+                    </span>
+                  </span>
+                </OptionCard>
+              ))}
+            </div>
+          </fieldset>
+
+          <div>
+            <label htmlFor="default-task-filter" className="text-sm font-semibold">
+              Filtro inicial da lista
+            </label>
+            <select
+              id="default-task-filter"
+              value={preferences.defaultFilter}
+              onChange={(event) => {
+                const value = STATUS_FILTERS.find((filter) => filter === event.target.value);
+                if (value) onUpdate({ defaultFilter: value });
+              }}
+              className="field mt-1.5"
+            >
+              {STATUS_FILTERS.map((filter) => (
+                <option key={filter} value={filter}>
+                  {FILTER_LABELS[filter]}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <SortControl
             label="Ordenação padrão"

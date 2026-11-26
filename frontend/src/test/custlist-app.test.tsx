@@ -204,6 +204,36 @@ describe("CustList", () => {
     expect(JSON.parse(data[PREFERENCES_KEY] ?? "{}").accent).toBe("rosa-violeta");
   });
 
+  it("aplica e salva tamanho do texto, filtro inicial e estilo de lista", async () => {
+    const { storage, data } = memoryStorage();
+    await renderApp(storage);
+    fireEvent.click(screen.getByRole("button", { name: "Personalizar aparência" }));
+    const panel = await screen.findByRole("dialog", { name: "Personalização" });
+
+    await act(async () => {
+      fireEvent.click(within(panel).getByLabelText("Grande"));
+      fireEvent.click(within(panel).getByLabelText(/Lista/));
+      fireEvent.change(within(panel).getByLabelText("Filtro inicial da lista"), {
+        target: { value: "in_progress" },
+      });
+    });
+
+    fireEvent.click(within(panel).getByRole("button", { name: "Fechar" }));
+    expect(document.documentElement).toHaveAttribute("data-text-size", "large");
+    expect(screen.getAllByRole("article")).toHaveLength(2);
+    expect(screen.getAllByRole("article")[0]?.className).toContain(
+      "grid-cols-[auto_minmax(0,1fr)]",
+    );
+    expect(screen.getAllByRole("list").some((list) => list.className.includes("grid-cols-1"))).toBe(
+      true,
+    );
+    expect(JSON.parse(data[PREFERENCES_KEY] ?? "{}")).toMatchObject({
+      defaultFilter: "in_progress",
+      textSize: "large",
+      taskView: "list",
+    });
+  });
+
   it("dá nomes acessíveis aos controles principais", async () => {
     const { storage } = memoryStorage();
     await renderApp(storage);
